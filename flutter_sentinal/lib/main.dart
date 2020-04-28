@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sentinal/home.dart';
 void main() => runApp(MyApp());
 
+
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.grey[100],
+      ),
       home: LoginPage(),
     );
   }
@@ -96,6 +100,7 @@ class _LoginPage extends State<LoginPage>{
                           Padding(
                             padding: const EdgeInsets.fromLTRB(30, 0, 30, 50),
                             child: TextField(
+                              obscureText: true,
                               controller: _passController,
                               decoration: new InputDecoration(
                                 errorText: _checkPass== true ? _passErr:null,
