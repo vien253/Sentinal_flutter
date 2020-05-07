@@ -8,6 +8,9 @@ class AddSite extends StatefulWidget {
   _AddSite createState() => _AddSite();
 }
 class _AddSite extends State<AddSite>{
+  FocusNode _nameFNode= FocusNode();
+  FocusNode _addFNode= FocusNode();
+  FocusNode _numFNode= FocusNode();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -25,6 +28,31 @@ class _AddSite extends State<AddSite>{
             },
           )
         ],
+      ),
+      body: Container(
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        width: double.maxFinite,
+        height: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: Text("Size name",),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: TextField(),
+            ),
+            Text("Site Address",),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: TextField(),
+            ),
+            Text("Number of Barn"),
+            TextField(),
+          ],
+        ),
       ),
 
     );

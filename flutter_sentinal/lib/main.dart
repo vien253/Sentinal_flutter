@@ -1,4 +1,4 @@
-
+import 'site_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sentinal/home.dart';
 void main() => runApp(MyApp());
@@ -10,14 +10,23 @@ class MyApp extends StatelessWidget{
     // TODO: implement build
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.grey[100],
+          primaryColor: Colors.grey[100]
       ),
-      home: LoginPage(),
+      initialRoute: '/',
+      routes: {
+        '/home': (context) => Home(),
+        '/': (context)=> LoginPage(),
+        '/siteDetail': (context) => SiteDetail(),
+      },
+//      theme: ThemeData(
+//        primaryColor: Colors.grey[100],
+//      ),
+//      home: LoginPage(),
     );
   }
 
   Widget gotohome (BuildContext context){
-    return HomePage();
+    return Home();
   }
 }
 class LoginPage extends StatefulWidget{
@@ -27,6 +36,8 @@ class LoginPage extends StatefulWidget{
 class _LoginPage extends State<LoginPage>{
   TextEditingController _userController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
+  FocusNode _userFNode =FocusNode();
+  FocusNode _passFNode = FocusNode();
   var _userErr = 'Tài khoản không hợn lệ';
   var _passErr = 'Mật khẩu lớn hơn 6 kí tự';
   bool _checkUser = false;
@@ -34,9 +45,9 @@ class _LoginPage extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.indigo[900],
+    return Scaffold(
+//        backgroundColor: Colors.indigo[900],
+          backgroundColor: Color(0xff002057),
 //        resizeToAvoidBottomInset: false, //cố định các phần tử trong giao diện
         body: GestureDetector(
           onTap: (){
@@ -86,6 +97,10 @@ class _LoginPage extends State<LoginPage>{
                           Padding(
                             padding: const EdgeInsets.fromLTRB(30, 0, 30, 10),
                             child: TextField(
+                              focusNode: _userFNode,
+                              onEditingComplete: (){
+                                FocusScope.of(context).requestFocus(_passFNode);
+                              },
                               controller: _userController,
                               decoration: new InputDecoration(
                                 errorText: _checkUser== true ? _userErr:null,
@@ -100,6 +115,8 @@ class _LoginPage extends State<LoginPage>{
                           Padding(
                             padding: const EdgeInsets.fromLTRB(30, 0, 30, 50),
                             child: TextField(
+                              focusNode: _passFNode,
+                              onSubmitted:(_) => FocusScope.of(context).unfocus(),
                               obscureText: true,
                               controller: _passController,
                               decoration: new InputDecoration(
@@ -108,8 +125,8 @@ class _LoginPage extends State<LoginPage>{
                                   hintText: 'Password'
                               ),
 
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
+//                              keyboardType: TextInputType.visiblePassword,
+                              textInputAction: TextInputAction.done,
                             ),
                           ),
 
@@ -152,8 +169,8 @@ class _LoginPage extends State<LoginPage>{
             ),
           ),
         ),
-      ),
-    );
+      );
+
   }
 
   void onLogin() {
@@ -168,8 +185,7 @@ class _LoginPage extends State<LoginPage>{
       print(_checkPass);
       print(_checkUser);
       if(_checkPass== false && _checkUser== false) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.pushNamed(context, '/home');
       }
     });
   }
