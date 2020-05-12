@@ -20,11 +20,22 @@ class _AddSite extends State<SetUpBarn>{
             ),),
 
             onPressed: (){
+              Navigator.pushNamed(context, '/home');
             },
           )
         ],
       ),
+      body: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context,index){
+          return CartItemBarn(index);
+        })
 
+    );
+  }
+  Widget CartItemBarn (int index){
+    return Container(
+      child: Text(index.toString()),
     );
   }
 }

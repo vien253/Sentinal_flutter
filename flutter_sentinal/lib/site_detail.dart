@@ -23,8 +23,10 @@ class _state_full extends State<state_full>{
 
   @override
   Widget build(BuildContext context) {
+    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     // TODO: implement build
     return WillPopScope(
+
       onWillPop: () async{
 //        Fluttertoast.showToast(msg: "test");
         return true;
@@ -64,7 +66,7 @@ class _state_full extends State<state_full>{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Robinson Site",
+                        Text(args.sitename,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -80,7 +82,7 @@ class _state_full extends State<state_full>{
                           ),
                           textAlign: TextAlign.left,),
                         ),
-                        Text("1,439",
+                        Text(args.numofbarn.toString(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -101,7 +103,7 @@ class _state_full extends State<state_full>{
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: _title.length,
+                    itemCount: args.numofbarn,
                     itemBuilder: (context,index){
                       return ListHome2(_leading[index], _title[index], _subtitle[index], _num[index]);
                     },

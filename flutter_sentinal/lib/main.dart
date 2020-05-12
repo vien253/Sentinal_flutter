@@ -1,3 +1,6 @@
+import 'package:flutter_sentinal/data/data_moor.dart';
+import 'package:provider/provider.dart';
+import 'home.dart';
 import 'site_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sentinal/home.dart';
@@ -8,20 +11,23 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.grey[100]
-      ),
-      initialRoute: '/',
-      routes: {
-        '/home': (context) => Home(),
-        '/': (context)=> LoginPage(),
-        '/siteDetail': (context) => SiteDetail(),
-      },
+    return Provider(
+      create: (_)=> MyData(),
+      child: MaterialApp(
+        theme: ThemeData(
+            primaryColor: Colors.grey[100]
+        ),
+        initialRoute: '/',
+        routes: {
+          '/home': (context) => Home(),
+          '/': (context)=> LoginPage(),
+          '/siteDetail': (context) => SiteDetail(),
+        },
 //      theme: ThemeData(
 //        primaryColor: Colors.grey[100],
 //      ),
 //      home: LoginPage(),
+      ),
     );
   }
 
