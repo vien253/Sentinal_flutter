@@ -12,10 +12,12 @@ class AddSite extends StatefulWidget {
   _AddSite createState() => _AddSite();
 }
 class _AddSite extends State<AddSite>{
+  DateTime now;
   TextEditingController sitenameController, siteaddressController,numofbarnController;
   FocusNode _nameFNode= FocusNode();
   FocusNode _addFNode= FocusNode();
   FocusNode _numFNode= FocusNode();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -23,9 +25,12 @@ class _AddSite extends State<AddSite>{
     siteaddressController = TextEditingController();
     sitenameController = TextEditingController();
     numofbarnController = TextEditingController();
+    DateTime now = DateTime.now();
   }
   @override
   Widget build(BuildContext context) {
+    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -37,15 +42,13 @@ class _AddSite extends State<AddSite>{
             ),),
 
             onPressed: (){
-              setState(() {
-                final database = Provider.of<MyData>(context, listen: false);
+                final database = Provider.of<SiteDao>(context, listen: false);
                 final site = Site(
-                    sitename: sitenameController.text, siteaddress: siteaddressController.text, numofbarn: int.parse(numofbarnController.text) );
-                print(site.sitename);
+                    sitename: sitenameController.text.trim(), siteaddress: siteaddressController.text.trim(), numofbarn: int.parse(numofbarnController.text.trim()) );
                 database.insertSite(site);
-                print(site.sitename);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SetUpBarn()));
-              });
+
+
+                Navigator.pushNamed(context, '/setup_barn',arguments: ScreenArguments(sitenameController.text.trim(), int.parse(numofbarnController.text.trim())));
 
             },
           )
@@ -77,6 +80,7 @@ class _AddSite extends State<AddSite>{
             ),
             Text("Number of Barn"),
             TextField(
+              keyboardType: TextInputType.number,
               controller: numofbarnController,
             ),
           ],
@@ -85,9 +89,32 @@ class _AddSite extends State<AddSite>{
 
     );
   }
-  void reset(){
+  void _CheckDataText(Text t){
+    final database = Provider.of<SiteDao>(context, listen: false);
+//    for(int i=0; i< database.sites.sitename.le; i++)
+  }
+  void onAdd() {
     setState(() {
-
+//      if(sitenameController.text.trim().length < 1 || !_userController.text.contains('@'))
+//        _checkUser = true;
+//      else _checkUser = false;
+//      if(_passController.text.length<6)
+//        _checkPass = true;
+//      else _checkPass= false;
+//
+//      print(_checkPass);
+//      print(_checkUser);
+//      if(_checkPass== false && _checkUser== false) {
+//        Navigator.pushNamed(context, '/home');
+//      }
     });
   }
+
+
+}
+class ScreenArguments {
+  final String sitename;
+  final int numofbarn;
+
+  ScreenArguments(this.sitename, this.numofbarn);
 }

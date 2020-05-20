@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dd40485a-0465-4927-bd89-622d5a8d125c" name="Default Changelist" comment="" />
+    <list default="true" id="dd40485a-0465-4927-bd89-622d5a8d125c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Sentinal_flutter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Sentinal_flutter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/add_site.dart" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/lib/add_site.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/data/data_moor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/lib/data/data_moor.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/data/data_moor.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/lib/home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/lib/setup_barns.dart" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/lib/setup_barns.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_sentinal/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_sentinal/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_R" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1b7pBp47CA4WfwboJMUPI6zHnhJ" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/flutter_sentinal" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ui1" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunDashboard">
@@ -27,6 +41,18 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="Flutter.Unnamed">
+    <configuration name="Unnamed" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" nameIsGenerated="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="Unnamed" type="FlutterRunConfigurationType" factoryName="Flutter" editBeforeRun="true">
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.Unnamed" />
+      <item itemvalue="Flutter.Unnamed" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -46,7 +72,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

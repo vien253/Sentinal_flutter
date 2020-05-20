@@ -4,6 +4,8 @@ import 'home.dart';
 import 'site_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sentinal/home.dart';
+import 'setup_barns.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 void main() => runApp(MyApp());
 
 
@@ -11,8 +13,11 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Provider(
-      create: (_)=> MyData(),
+    return MultiProvider(
+      providers:[
+        Provider(create: (_) => MyData().setupBarnDao),
+        Provider(create: (_) => MyData().siteDao,),
+      ],
       child: MaterialApp(
         theme: ThemeData(
             primaryColor: Colors.grey[100]
@@ -22,6 +27,7 @@ class MyApp extends StatelessWidget{
           '/home': (context) => Home(),
           '/': (context)=> LoginPage(),
           '/siteDetail': (context) => SiteDetail(),
+          '/setup_barn': (context) => SetUpBarn(),
         },
 //      theme: ThemeData(
 //        primaryColor: Colors.grey[100],
@@ -40,6 +46,24 @@ class LoginPage extends StatefulWidget{
   _LoginPage createState() => _LoginPage();
 }
 class _LoginPage extends State<LoginPage>{
+
+  SharedPreferences logindata;
+  bool newuser;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_if_already_login();
+  }
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+    newuser = (logindata.getBool('login') ?? true);
+    print(newuser);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, new MaterialPageRoute(builder: (context) => Home()));
+    }
+  }
   TextEditingController _userController = new TextEditingController();
   TextEditingController _passController = new TextEditingController();
   FocusNode _userFNode =FocusNode();
@@ -181,6 +205,8 @@ class _LoginPage extends State<LoginPage>{
 
   void onLogin() {
     setState(() {
+      String username = _userController.text;
+      String password = _passController.text;
       if(_userController.text.length < 6 || !_userController.text.contains('@'))
         _checkUser = true;
       else _checkUser = false;
@@ -191,6 +217,8 @@ class _LoginPage extends State<LoginPage>{
       print(_checkPass);
       print(_checkUser);
       if(_checkPass== false && _checkUser== false) {
+        logindata.setBool('login', false);
+        logindata.setString('username', username);
         Navigator.pushNamed(context, '/home');
       }
     });

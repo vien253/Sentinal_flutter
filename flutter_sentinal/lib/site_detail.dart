@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sentinal/home.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:moor_ffi/moor_ffi.dart';
+import 'package:flutter_sentinal/data/data_moor.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(SiteDetail());
-final _num = <int>[1,2,3,4,5,6];
-final _leading= <String>["assets/item_card.png","assets/item_card.png","assets/item_card.png","assets/item_card.png","assets/item_card.png","assets/item_card.png"] ;
-final _title= <String>["South Barn","sfd","ađâsđá","Sfdsdfsdfsdfsdfsdf","Sfdsdfsdfdsf","Sfdsdfsdfdsf"];
-final _subtitle= <String>["Updated: SAT, JUN 15 7:30 PM","sdf","áđâsd","rtrtrtrrty","Updated: SAT, JUN 15 7:30 PM","Updated: SAT, JUN 15 7:30 PM","safdsfasdfsd"];
 class SiteDetail extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -102,14 +103,87 @@ class _state_full extends State<state_full>{
                 ],
               ),
               Expanded(
-                child: ListView.builder(
-                    itemCount: args.numofbarn,
-                    itemBuilder: (context,index){
-                      return ListHome2(_leading[index], _title[index], _subtitle[index], _num[index]);
-                    },
-              ),
+                child: _StreamDetail(context)
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+  StreamBuilder<List<SetupBarn>> _StreamDetail(BuildContext context){
+    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final database = Provider.of<SetupBarnDao>(context);
+    return StreamBuilder(
+      stream:  database.watchSetupBarnSiteName(args.sitename),
+      builder: (context, AsyncSnapshot<List<SetupBarn>> snapshot){
+        final barn = snapshot.data ?? List();
+        return ListView.builder(
+            itemCount: barn.length,
+            itemBuilder: (_, index){
+              final itembarn = barn[index];
+              print(itembarn);
+              print(itembarn.sitename);
+              print(args.sitename);
+              print(args.numofbarn);
+//              if(itembarn == null)
+//                return Container();
+              return _ListDetail(itembarn , database.db);
+            });
+      },
+    );
+  }
+  Widget _ListDetail (SetupBarn barn, MyData data){
+    final database = Provider.of<SetupBarnDao>(context);
+    final now = new DateTime.now();
+    final formatter = new DateFormat();
+    return GestureDetector(
+      child: Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+            child: Stack(
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset("assets/item_card.png"),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(barn.barnname,style:
+                          TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            child: Text("Updated: "+ barn.Updated.toString(),style:
+                            TextStyle(
+                                color: Colors.grey
+                            ),),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text("Count ",style: TextStyle(fontWeight: FontWeight.bold),),
+                              Text(barn.numofbarn.toString(),style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  ],
+                ),
+                Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: Icon(Icons.navigate_next,size: 40,color: Colors.grey,))
+              ],
+            ),
           ),
         ),
       ),
@@ -127,59 +201,6 @@ class _state_full extends State<state_full>{
           child: Text('delete'),
         ),
       ],
-    );
-  }
-  Widget ListHome2 (String leading,String title, String subtitle, int num){
-    return GestureDetector(
-      onTap: (){
-
-      },
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-          child: Stack(
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(leading),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(title,style:
-                        TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                          child: Text("Updated: $subtitle",style:
-                          TextStyle(
-                              color: Colors.grey
-                          ),),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text("Count ",style: TextStyle(fontWeight: FontWeight.bold),),
-                            Text(num.toString(),style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-              Container(
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Icon(Icons.navigate_next,size: 40,color: Colors.grey,))
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
