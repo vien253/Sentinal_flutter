@@ -10,11 +10,13 @@ part of 'data_moor.dart';
 class Site extends DataClass implements Insertable<Site> {
   final String sitename;
   final String siteaddress;
+  final String imagesite;
   final DateTime Updated;
   final int numofbarn;
   Site(
       {@required this.sitename,
       @required this.siteaddress,
+      this.imagesite,
       this.Updated,
       this.numofbarn});
   factory Site.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -28,6 +30,8 @@ class Site extends DataClass implements Insertable<Site> {
           .mapFromDatabaseResponse(data['${effectivePrefix}sitename']),
       siteaddress: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}siteaddress']),
+      imagesite: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}imagesite']),
       Updated: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}updated']),
       numofbarn:
@@ -42,6 +46,9 @@ class Site extends DataClass implements Insertable<Site> {
     }
     if (!nullToAbsent || siteaddress != null) {
       map['siteaddress'] = Variable<String>(siteaddress);
+    }
+    if (!nullToAbsent || imagesite != null) {
+      map['imagesite'] = Variable<String>(imagesite);
     }
     if (!nullToAbsent || Updated != null) {
       map['updated'] = Variable<DateTime>(Updated);
@@ -58,6 +65,7 @@ class Site extends DataClass implements Insertable<Site> {
     return Site(
       sitename: serializer.fromJson<String>(json['sitename']),
       siteaddress: serializer.fromJson<String>(json['siteaddress']),
+      imagesite: serializer.fromJson<String>(json['imagesite']),
       Updated: serializer.fromJson<DateTime>(json['Updated']),
       numofbarn: serializer.fromJson<int>(json['numofbarn']),
     );
@@ -68,6 +76,7 @@ class Site extends DataClass implements Insertable<Site> {
     return <String, dynamic>{
       'sitename': serializer.toJson<String>(sitename),
       'siteaddress': serializer.toJson<String>(siteaddress),
+      'imagesite': serializer.toJson<String>(imagesite),
       'Updated': serializer.toJson<DateTime>(Updated),
       'numofbarn': serializer.toJson<int>(numofbarn),
     };
@@ -76,11 +85,13 @@ class Site extends DataClass implements Insertable<Site> {
   Site copyWith(
           {String sitename,
           String siteaddress,
+          String imagesite,
           DateTime Updated,
           int numofbarn}) =>
       Site(
         sitename: sitename ?? this.sitename,
         siteaddress: siteaddress ?? this.siteaddress,
+        imagesite: imagesite ?? this.imagesite,
         Updated: Updated ?? this.Updated,
         numofbarn: numofbarn ?? this.numofbarn,
       );
@@ -89,6 +100,7 @@ class Site extends DataClass implements Insertable<Site> {
     return (StringBuffer('Site(')
           ..write('sitename: $sitename, ')
           ..write('siteaddress: $siteaddress, ')
+          ..write('imagesite: $imagesite, ')
           ..write('Updated: $Updated, ')
           ..write('numofbarn: $numofbarn')
           ..write(')'))
@@ -99,13 +111,16 @@ class Site extends DataClass implements Insertable<Site> {
   int get hashCode => $mrjf($mrjc(
       sitename.hashCode,
       $mrjc(
-          siteaddress.hashCode, $mrjc(Updated.hashCode, numofbarn.hashCode))));
+          siteaddress.hashCode,
+          $mrjc(imagesite.hashCode,
+              $mrjc(Updated.hashCode, numofbarn.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Site &&
           other.sitename == this.sitename &&
           other.siteaddress == this.siteaddress &&
+          other.imagesite == this.imagesite &&
           other.Updated == this.Updated &&
           other.numofbarn == this.numofbarn);
 }
@@ -113,17 +128,20 @@ class Site extends DataClass implements Insertable<Site> {
 class SitesCompanion extends UpdateCompanion<Site> {
   final Value<String> sitename;
   final Value<String> siteaddress;
+  final Value<String> imagesite;
   final Value<DateTime> Updated;
   final Value<int> numofbarn;
   const SitesCompanion({
     this.sitename = const Value.absent(),
     this.siteaddress = const Value.absent(),
+    this.imagesite = const Value.absent(),
     this.Updated = const Value.absent(),
     this.numofbarn = const Value.absent(),
   });
   SitesCompanion.insert({
     @required String sitename,
     @required String siteaddress,
+    this.imagesite = const Value.absent(),
     this.Updated = const Value.absent(),
     this.numofbarn = const Value.absent(),
   })  : sitename = Value(sitename),
@@ -131,12 +149,14 @@ class SitesCompanion extends UpdateCompanion<Site> {
   static Insertable<Site> custom({
     Expression<String> sitename,
     Expression<String> siteaddress,
+    Expression<String> imagesite,
     Expression<DateTime> Updated,
     Expression<int> numofbarn,
   }) {
     return RawValuesInsertable({
       if (sitename != null) 'sitename': sitename,
       if (siteaddress != null) 'siteaddress': siteaddress,
+      if (imagesite != null) 'imagesite': imagesite,
       if (Updated != null) 'updated': Updated,
       if (numofbarn != null) 'numofbarn': numofbarn,
     });
@@ -145,11 +165,13 @@ class SitesCompanion extends UpdateCompanion<Site> {
   SitesCompanion copyWith(
       {Value<String> sitename,
       Value<String> siteaddress,
+      Value<String> imagesite,
       Value<DateTime> Updated,
       Value<int> numofbarn}) {
     return SitesCompanion(
       sitename: sitename ?? this.sitename,
       siteaddress: siteaddress ?? this.siteaddress,
+      imagesite: imagesite ?? this.imagesite,
       Updated: Updated ?? this.Updated,
       numofbarn: numofbarn ?? this.numofbarn,
     );
@@ -163,6 +185,9 @@ class SitesCompanion extends UpdateCompanion<Site> {
     }
     if (siteaddress.present) {
       map['siteaddress'] = Variable<String>(siteaddress.value);
+    }
+    if (imagesite.present) {
+      map['imagesite'] = Variable<String>(imagesite.value);
     }
     if (Updated.present) {
       map['updated'] = Variable<DateTime>(Updated.value);
@@ -198,6 +223,18 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
         minTextLength: 1, maxTextLength: 50);
   }
 
+  final VerificationMeta _imagesiteMeta = const VerificationMeta('imagesite');
+  GeneratedTextColumn _imagesite;
+  @override
+  GeneratedTextColumn get imagesite => _imagesite ??= _constructImagesite();
+  GeneratedTextColumn _constructImagesite() {
+    return GeneratedTextColumn(
+      'imagesite',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _UpdatedMeta = const VerificationMeta('Updated');
   GeneratedDateTimeColumn _Updated;
   @override
@@ -224,7 +261,7 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
 
   @override
   List<GeneratedColumn> get $columns =>
-      [sitename, siteaddress, Updated, numofbarn];
+      [sitename, siteaddress, imagesite, Updated, numofbarn];
   @override
   $SitesTable get asDslTable => this;
   @override
@@ -249,6 +286,10 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, Site> {
               data['siteaddress'], _siteaddressMeta));
     } else if (isInserting) {
       context.missing(_siteaddressMeta);
+    }
+    if (data.containsKey('imagesite')) {
+      context.handle(_imagesiteMeta,
+          imagesite.isAcceptableOrUnknown(data['imagesite'], _imagesiteMeta));
     }
     if (data.containsKey('updated')) {
       context.handle(_UpdatedMeta,
@@ -553,15 +594,4 @@ abstract class _$MyData extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [sites, setupBarns];
-}
-
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$SiteDaoMixin on DatabaseAccessor<MyData> {
-  $SitesTable get sites => attachedDatabase.sites;
-}
-mixin _$SetupBarnDaoMixin on DatabaseAccessor<MyData> {
-  $SetupBarnsTable get setupBarns => attachedDatabase.setupBarns;
 }

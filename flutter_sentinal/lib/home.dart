@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sentinal/data/dao/site_dao.dart';
 import 'package:flutter_sentinal/data/data_moor.dart';
 import 'package:flutter_sentinal/drawer.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -13,6 +17,7 @@ class Home extends StatefulWidget{
   _Home createState() => _Home();
 }
 class _Home extends State<Home>{
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -41,6 +46,12 @@ class _Home extends State<Home>{
 
     );
   }
+  Widget _inputImage(base64) {
+    Uint8List _bytesImage;
+
+    _bytesImage = Base64Decoder().convert(base64);
+    return Image.memory(_bytesImage);
+  }
 
   StreamBuilder<List<Site>> _ListHome2(BuildContext context){
     final database = Provider.of<SiteDao>(context);
@@ -63,7 +74,7 @@ class _Home extends State<Home>{
     final formatter = new DateFormat();
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, '/siteDetail', arguments: ScreenArguments(itemSite.sitename,itemSite.numofbarn, now));
+        Navigator.pushNamed(context, '/siteDetail', arguments: ScreenArguments(itemSite.sitename,itemSite.imagesite,itemSite.numofbarn, now));
       },
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),
@@ -86,7 +97,12 @@ class _Home extends State<Home>{
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Image.asset("assets/item_card.png"),
+                    Container(
+                      width: 70,
+                      height: 70,
+                      child: _inputImage(itemSite.imagesite),
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Column(
@@ -131,7 +147,8 @@ class _Home extends State<Home>{
 class ScreenArguments {
   final String sitename;
   final int numofbarn;
+  final String siteimage;
   final DateTime date;
 
-  ScreenArguments(this.sitename, this.numofbarn,this.date);
+  ScreenArguments(this.sitename,this.siteimage, this.numofbarn,this.date);
 }

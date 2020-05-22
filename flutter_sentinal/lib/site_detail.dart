@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sentinal/data/dao/barn_dao.dart';
 import 'package:flutter_sentinal/home.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -42,8 +46,13 @@ class _state_full extends State<state_full>{
               Stack(
                 children: <Widget>[
                   Container(
+                    color: Colors.black54,
+                    height: 300,
                     width: double.maxFinite,
-                    child: Image.asset("assets/bg_big.png",fit: BoxFit.fill,),
+                    child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: _inputImage(args.siteimage)),
+                    //Image.asset("assets/bg_big.png",fit: BoxFit.fill,),
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(10, 30, 0, 0),
@@ -110,6 +119,12 @@ class _state_full extends State<state_full>{
         ),
       ),
     );
+  }
+  Widget _inputImage(base64) {
+    Uint8List _bytesImage;
+
+    _bytesImage = Base64Decoder().convert(base64);
+    return Image.memory(_bytesImage);
   }
   StreamBuilder<List<SetupBarn>> _StreamDetail(BuildContext context){
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
